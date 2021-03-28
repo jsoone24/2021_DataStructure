@@ -17,8 +17,8 @@ int findMaxPixel(int a[][5], int h, int w){
 template<std::size_t x_size, std::size_t y_size>
 int findMaxPixelSTD(std::array< std::array<int, x_size> , y_size> &a){
     int maxVal = 0;
-    for(int i=0 ; i < x_size ; i++){
-        for( int j=0 ; j< y_size ; j++ ){
+    for(int i=0 ; i < y_size ; i++){
+        for( int j=0 ; j< x_size ; j++ ){
             if( maxVal < a[i][j] )
                 maxVal = a[i][j];
         }

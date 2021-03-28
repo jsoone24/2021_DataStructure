@@ -1,35 +1,28 @@
 //파일을 읽고 쓰는 법에 대해서
-#include <iostream>
+#include <iostream> 
 #include <vector>
 #include <string>
 #include <fstream>
 
 using namespace std;
 
-int main(void)
-{
+int main(void){
     string dataStructure = "자료구조는 다양한 자료구조의 형태와 알고리즘을 배우는 과목입니다";
     ofstream f_out("ds.txt");
-    if (!f_out)
-    {
-        cout << "파일이 열려있지 않습니다"
-             << "\n";
+    if(!f_out){
+        cout << "파일이 열려있지 않습니다" << "\n";
     }
-    else
-    {
+    else{
         f_out << dataStructure << "\n";
         f_out.close();
     }
 
     ofstream f_out2("ds.txt", ios::app); // 기존 파일에 내용을 덧붙입니다
     string dataStructure2 = "이번 학기 자료구조는 윤진혁 교수가 가르칩니다";
-    if (!f_out2)
-    {
-        cout << "파일이 열려있지 않습니다"
-             << "\n";
+    if(!f_out2){
+        cout << "파일이 열려있지 않습니다" << "\n";
     }
-    else
-    {
+    else{
         f_out2 << dataStructure2 << "\n";
         f_out2.close();
     }
@@ -45,15 +38,11 @@ int main(void)
 
     char letter;
     ifstream f_in("ds.txt"); //읽기전용으로 파일을 엽니다
-    if (!f_in)
-    {
-        cout << "파일이 열려있지 않습니다"
-             << "\n";
+    if(!f_in){
+        cout << "파일이 열려있지 않습니다" << "\n";
     }
-    else
-    {
-        for (int i = 0; !f_in.eof(); i++)
-        { //eof: end of file
+    else{
+        for(int i = 0; !f_in.eof(); i++){ //eof: end of file
             f_in.get(letter);
             cout << letter;
         }
