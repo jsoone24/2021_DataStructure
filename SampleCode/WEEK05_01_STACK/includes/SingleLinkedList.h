@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -17,6 +18,7 @@ class s_linked_list{
     protected:
         node* head, * tail; // head: first node, tail: last node
         int size = 0;
+        
     public:
         s_linked_list(){
             head = nullptr;
@@ -269,99 +271,4 @@ int s_linked_list::search_value(int n){
     else{
         return idx;
     }
-}
-
-int main(){
-    s_linked_list sl_list;
-    sl_list.push_front(1);
-    std::cout<<sl_list.pop_back();
-
-/*
-    sl_list.push_back(10);
-    sl_list.push_back(11);
-    sl_list.push_back(14);
-    sl_list.push_back(18);
-    sl_list.push_back(20);
-    sl_list.push_back(27);
-    sl_list.display_contents(); // 맨뒤에 넣기 테스트
-
-    sl_list.insert_node_at(2, 7);
-    sl_list.display_contents();    // 정해진 장소에 넣기 테스트
-
-    sl_list.push_front(15); 
-    sl_list.display_contents();    // 맨앞에 넣기 테스트
-
-    sl_list.search_value(10);
-    sl_list.search_value(20);
-
-    std::cout << sl_list.pop_back() << " deleted at back\n";
-    sl_list.display_contents();
-
-    std::cout << sl_list.pop_front() << " deleted at front\n";
-    sl_list.display_contents();
-
-    std::cout << sl_list.pop_node_at(3) << " deleted at 3\n";
-    sl_list.display_contents();
-
-    sl_list.remove_node(7);
-    sl_list.display_contents();    
-    std::cout << "리스트의 크기는" << sl_list.Size() << "\n";
-    
-    s_linked_list sl_list2;
-    sl_list2.push_back(10);
-    sl_list2.push_back(11);
-    sl_list2.push_back(14);
-    sl_list2.push_back(18);
-    sl_list2.push_back(20);
-    sl_list2.push_back(27); 
-    int max_iter = 100000;
-    auto start = std::chrono::steady_clock::now();
-    // auto는 변수 타입을 추론합니다. 편합니다.
-    // 하지만 이번 강의에선 되도록 안쓸겁니다.
-    for(int i = 0; i < max_iter; i++){
-        sl_list2.insert_node_at(2, 7);
-    }
-    auto end = std::chrono::steady_clock::now();
-    auto etime = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-    std::cout << "single linked list 삽입 실행시간: " << etime << "\n";
-
-    start = std::chrono::steady_clock::now();
-    std::vector<int> v_list2 = {10, 11, 14, 18, 20, 17};
-    for(int i = 0; i < max_iter; i++){
-        v_list2.insert(v_list2.begin()+2, 7);
-    }
-    end = std::chrono::steady_clock::now();
-    etime = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-
-    std::cout << "std::vector 삽입 실행시간: " << etime << "\n";
-
-    s_linked_list sl_list3;
-    sl_list3.push_back(10);
-    sl_list3.push_back(11);
-    sl_list3.push_back(14);
-    sl_list3.push_back(18);
-    sl_list3.push_back(20);
-    sl_list3.push_back(27);
-
-    start = std::chrono::steady_clock::now();
-    // auto는 변수 타입을 추론합니다. 편합니다.
-    // 하지만 이번 강의에선 되도록 안쓸겁니다.
-    for(int i = 0; i < max_iter; i++){
-        sl_list3.replace_value_at(5, 7);
-    }
-    end = std::chrono::steady_clock::now();
-    etime = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-    std::cout << "single linked list 대입 실행시간: " << etime << "\n";
-
-    start = std::chrono::steady_clock::now();
-    std::vector<int> v_list3 = {10, 11, 14, 18, 20, 17};
-    for(int i = 0; i < max_iter; i++){
-        v_list3[5] = 7;
-    }
-    end = std::chrono::steady_clock::now();
-    etime = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-
-    std::cout << "std::vector 대입 실행시간: " << etime << "\n";    
-    */
-    return 0;
 }
