@@ -19,7 +19,9 @@ int change_val2(int &p) { // function for 2nd STEP, 참조자(레퍼런스)를 �
 
 // function for 4th step, 참조자를 return합니다. 
 // int return_ref1(int &a) { return a; } //이 형태는 작동이 안됩니다.
-int *return_ref2(int &a) { return &a; } // 하지만 이 형태는 됩니다.
+int &return_ref2(int &a) { return a; } // 하지만 이 형태는 됩니다.
+
+
 
 int main(){
     int myAge = 100;

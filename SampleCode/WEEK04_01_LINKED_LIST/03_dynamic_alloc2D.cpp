@@ -19,7 +19,7 @@ void free2DInt(int **mat, int rows, int cols = 0){
     // 제대로 메모리 해제해주는 것을 잊으면 안됩니다.
     // 몇번이고 강조하지만, 이걸 해 주지 않으면 메모리 누수가 일어납니다
     // 프로그램이 돌아가면 돌아갈수록 가용메모리가 줄어드는 현상...
-    if(mat != NULL){
+    if(mat != nullptr){
         for(int i = 0 ; i < rows ; i++){
             delete [] mat[i]; // array를 지울 때는 delete [] 잊지마세요
         }

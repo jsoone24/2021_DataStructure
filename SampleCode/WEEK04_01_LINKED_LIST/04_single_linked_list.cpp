@@ -165,9 +165,6 @@ int s_linked_list::pop_node_at(int idx){ // index에 있는 값을 지웁니다.
         //std::cout << ptr->data << "값의 노드를 하나 지웁니다\n";
         value = ptr->data;
         tmp->next = ptr->next; // 삭제할 노드를 빼고 연결하고
-        if(ptr == tail){
-            tail = tmp;
-        }
         size--; // 노드를 삽입합니다.
         delete ptr;
         ptr = nullptr;
@@ -188,11 +185,11 @@ void s_linked_list::remove_node(int n){ // 값을 찾아서 한 개를 지웁니
         }
     }
     if(ptr == nullptr){
-        std::cout << "값의 노드는 존재하지 않습니다\n";
+        std::cout << n << "값의 노드는 존재하지 않습니다\n";
     }    
     else if(size == 1){  // size == 1 일 때 값을 제거
-        head == nullptr;
-        tail == nullptr;
+        head = nullptr;
+        tail = nullptr;
     }    
     else{
         size--;
