@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "BinaryNode.h"
 
 #define MAX_QUEUE_SIZE 100
 
@@ -13,13 +12,13 @@ class CircularQueue{
     protected:
         int front; // 가장 앞 (데이터를 꺼내는 위치)
         int rear; // 가장 뒤 (데이터를 넣는 위치)
-        BinaryNode* data[MAX_QUEUE_SIZE];    
+        int data[MAX_QUEUE_SIZE];    
     public:
         CircularQueue(){front = rear = 0;}
         ~CircularQueue(){}
         bool isEmpty(){return front == rear;}
         bool isFull(){return (rear+1) % MAX_QUEUE_SIZE == front;} // 나머지 연산으로 위치를 찾습니다.
-        void enqueue(BinaryNode* val){ // 큐 맨 뒤에 데이터를 추가
+        void enqueue(int val){ // 큐 맨 뒤에 데이터를 추가
             if(isFull()){
                 error(" Error: 큐가 포화상태입니다\n");
             }
@@ -28,7 +27,7 @@ class CircularQueue{
                 data[rear] = val;
             }
         }
-        BinaryNode*	dequeue(){ // 큐 맨 앞에서 데이터를 꺼냄
+        int dequeue(){ // 큐 맨 앞에서 데이터를 꺼냄
             if(isEmpty()){
                 error(" Error: 큐가 공백상태입니다\n");
             }
