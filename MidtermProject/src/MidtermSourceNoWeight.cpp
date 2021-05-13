@@ -175,7 +175,13 @@ void Graph::RandomWalker(int i, int n, float q) // i : starting node, n : walkin
     while (n > 0)
     {
         random = rand() % 100;
-        if ((random <= q_percent) | (ptr->n_neighbors == 0)) //random node pick
+        if(ptr->n_neighbors == 0)
+        {
+            random_node = rand() % nodeNum;
+            ptr = nodes[random_node];
+            continue;
+        }
+        if ((random <= q_percent)) //random node pick
         {
             random_node = rand() % nodeNum;
             ptr = nodes[random_node];
@@ -210,7 +216,7 @@ int Graph::PageRank(int i, int n, float q)
 
     for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++)
     {
-        cout << "id : " << (*it).second << "\tpageRankValue : " << (*it).first << endl;
+        cout << "id : " << (*it).second  << "\tpageRankValue : " << (*it).first << "\tname : " << nodes[Id2Idx((*it).second)]->name<< endl;
     }
 }
 
@@ -233,9 +239,9 @@ int main()
     //Graph StarW_Ep7 = Graph("./dataset/starwars/starwars-episode-7-interactions-allCharacters-nodes.tsv");
     //Graph StarW_All = Graph("./dataset/starwars/starwars-full-interactions-allCharacters-nodes.tsv");
     //
-    Graph BicycleT_50 = Graph("./dataset/bicycle/station_names.tsv");
+    //Graph BicycleT_50 = Graph("./dataset/bicycle/station_names.tsv");
     //Graph BicycleT_100 = Graph("./dataset/bicycle/station_names.tsv");
-    //Graph BicycleT_All = Graph("./dataset/bicycle/station_names.tsv");
+    Graph BicycleT_All = Graph("./dataset/bicycle/station_names.tsv");
 
     // Second. open datafile. second parameter : if true : interdirectional, false : bidirectional
     //StarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
@@ -247,9 +253,9 @@ int main()
     //StarW_Ep7.LoadEdge("./dataset/starwars/starwars-episode-7-interactions-allCharacters-links.tsv", true);
     //StarW_All.LoadEdge("./dataset/starwars/starwars-full-interactions-allCharacters-links.tsv", true);
     //
-    BicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
+    //BicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
     //BicycleT_100.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-    //BicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+    BicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
 
     //Last. let RandomWalker run and get PageRank
     //StarW_Ep1.PageRank(10, 300000, 0.9);
@@ -261,9 +267,9 @@ int main()
     //StarW_Ep7.PageRank(50, 200, 0.3);
     //StarW_All.PageRank(50, 200, 0.3);
     //
-    BicycleT_50.PageRank(50, 30000000, 0.7);
+    //BicycleT_50.PageRank(50, 30000000, 0.7);
     //BicycleT_100.PageRank(50, 200, 0.3);
-    //BicycleT_All.PageRank(50, 200, 0.3);
-
+    BicycleT_All.PageRank(50, 30000000, 0.7);
+    
     return 0;
 }

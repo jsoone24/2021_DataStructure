@@ -145,7 +145,7 @@ void Graph::LoadEdge(string filename, bool opt) //opt: whether interdirectional
     }
 
     ifs.close();
-/*
+    /*
     for (vector<node *>::iterator it = nodes.begin(); it != nodes.end(); it++)
     {
         cout << "id : " << (*it)->id << endl             << "neighbors : ";
@@ -170,12 +170,18 @@ void Graph::RandomWalker(int i, int n, float q) // i : starting node, n : walkin
     ptr = nodes[i];
 
     int sum = 0;
-    vector<pair<node*, int>>::iterator it;
+    vector<pair<node *, int>>::iterator it;
 
     while (n > 0)
     {
         random = rand() % 100;
-        if ((random <= q_percent) | (ptr->n_neighbors == 0)) //random node pick
+        if (ptr->n_neighbors == 0)
+        {
+            random_node = rand() % nodeNum;
+            ptr = nodes[random_node];
+            continue;
+        }
+        if ((random <= q_percent)) //random node pick
         {
             random_node = rand() % nodeNum;
             ptr = nodes[random_node];
@@ -185,14 +191,14 @@ void Graph::RandomWalker(int i, int n, float q) // i : starting node, n : walkin
             sum = 0;
             random_node = rand() % ptr->sum_weight;
             //sum weight 아래로 돌면서 계속 합을 구해나감. 만약 합이 random_node값보다 커지는 경우 그 때가 그때다!
-            for(it = ptr->neighbors.begin(); (it != ptr->neighbors.end()) && (sum < random_node);it++)
+            for (it = ptr->neighbors.begin(); (it != ptr->neighbors.end()) && (sum < random_node); it++)
             {
                 sum += (*it).second;
             }
-            if(it == ptr->neighbors.end())
+            if (it == ptr->neighbors.end())
                 it--;
             ptr = (*it).first;
-            //for (int i = 0; i < ptr->sum_weight;)   
+            //for (int i = 0; i < ptr->sum_weight;)
         }
         ptr->n_visited++;
         n--;
@@ -219,7 +225,7 @@ int Graph::PageRank(int i, int n, float q)
 
     for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++)
     {
-        cout << "id : " << (*it).second << "\tpageRankValue : " << (*it).first << endl;
+        cout << "id : " << (*it).second  << "\tpageRankValue : " << (*it).first << "\tname : " << nodes[Id2Idx((*it).second)]->name<< endl;
     }
 }
 
@@ -242,9 +248,9 @@ int main()
     //Graph StarW_Ep7 = Graph("./dataset/starwars/starwars-episode-7-interactions-allCharacters-nodes.tsv");
     //Graph StarW_All = Graph("./dataset/starwars/starwars-full-interactions-allCharacters-nodes.tsv");
     //
-    Graph BicycleT_50 = Graph("./dataset/bicycle/station_names.tsv");
+    //Graph BicycleT_50 = Graph("./dataset/bicycle/station_names.tsv");
     //Graph BicycleT_100 = Graph("./dataset/bicycle/station_names.tsv");
-    //Graph BicycleT_All = Graph("./dataset/bicycle/station_names.tsv");
+    Graph BicycleT_All = Graph("./dataset/bicycle/station_names.tsv");
 
     // Second. open datafile. second parameter : if true : interdirectional, false : bidirectional
     //StarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
@@ -256,23 +262,23 @@ int main()
     //StarW_Ep7.LoadEdge("./dataset/starwars/starwars-episode-7-interactions-allCharacters-links.tsv", true);
     //StarW_All.LoadEdge("./dataset/starwars/starwars-full-interactions-allCharacters-links.tsv", true);
     //
-    BicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
+    //BicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
     //BicycleT_100.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-    //BicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+    BicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
 
     //Last. let RandomWalker run and get PageRank
     //StarW_Ep1.PageRank(10, 300000, 0.9);
-    //StarW_Ep2.PageRank(50, 200, 0.3);
-    //StarW_Ep3.PageRank(50, 200, 0.3);
-    //StarW_Ep4.PageRank(50, 200, 0.3);
-    //StarW_Ep5.PageRank(50, 200, 0.3);
-    //StarW_Ep6.PageRank(50, 200, 0.3);
-    //StarW_Ep7.PageRank(50, 200, 0.3);
-    //StarW_All.PageRank(50, 200, 0.3);
+    //StarW_Ep2.PageRank(10, 300000, 0.9);
+    //StarW_Ep3.PageRank(10, 300000, 0.9);
+    //StarW_Ep4.PageRank(10, 300000, 0.9);
+    //StarW_Ep5.PageRank(10, 300000, 0.9);
+    //StarW_Ep6.PageRank(10, 300000, 0.9);
+    //StarW_Ep7.PageRank(10, 300000, 0.9);
+    //StarW_All.PageRank(10, 300000, 0.9);
     //
-    BicycleT_50.PageRank(50, 30000000, 0.7);
-    //BicycleT_100.PageRank(50, 200, 0.3);
-    //BicycleT_All.PageRank(50, 200, 0.3);
+    //BicycleT_50.PageRank(50, 30000000, 0.7);
+    //BicycleT_100.PageRank(50, 30000000, 0.7);
+    BicycleT_All.PageRank(50, 30000000, 0.7);
 
     return 0;
 }
