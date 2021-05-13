@@ -28,11 +28,11 @@ class Graph
 public:
     Graph(string filename); // Constructor
     ~Graph();
-    void LoadEdge(string filename);       // load edge file
-    void AddEdge(int source, int target); //adding edge
+    void LoadEdge(string filename, bool opt);       // load edge file
+    void AddEdge(int source, int target, bool opt); //adding edge
     int Id2Idx(int n);                    // convert file node id to vector node id
-    //int RandomWalker(int i, int n, float q); // i : starting node, n : walking length, q : probability jumping to random node
-    //int PageRank();                        // cal pagerank
+    int RandomWalker(int i, int n, float q); // i : starting node, n : walking length, q : probability jumping to random node
+    int PageRank(int i, int n, float q);                        // cal pagerank
 };
 
 //todo
@@ -75,9 +75,23 @@ Graph::~Graph()
 }
 
 //todo
-void Graph::AddEdge(int source, int target)
+void Graph::AddEdge(int source, int target, bool opt)    //opt: whether interdirectional
 {
     nodes[source]->neighbors.push_back(nodes[target]);
+
+    if(opt == true)
+    {
+        vector<node *>::iterator it;
+        for(it = nodes[target]->neighbors.begin(); it != nodes[target]->neighbors.end(); it++)
+        {
+            if((*it) == nodes[source])
+                break;
+        }
+        if (it == nodes[target]->neighbors.end())
+        {
+            nodes[target]->neighbors.push_back(nodes[source]);
+        }
+    }
 }
 
 //todo
@@ -96,7 +110,7 @@ int Graph::Id2Idx(int n)
 }
 
 //todo
-void Graph::LoadEdge(string filename)
+void Graph::LoadEdge(string filename, bool opt)  //opt: whether interdirectional
 {
     std::ifstream ifs(filename);
     std::string line;
@@ -117,7 +131,7 @@ void Graph::LoadEdge(string filename)
         int idxT = Id2Idx(std::atoi(target.c_str())); // Vector index of node target
         int valW = std::atoi(weight.c_str());
 
-        AddEdge(idxS, idxT);
+        AddEdge(idxS, idxT, opt);
     }
 
     ifs.close();
@@ -131,39 +145,39 @@ void Graph::LoadEdge(string filename)
     }
 }
 
-//////////////////////////////////////////
-//////////         Task 1         ////////
-////////// implement RandomWalker ////////
-//////////////////////////////////////////
-//
-////todo
-//int Graph::RandomWalker(int i, int n, float q)
-//{
-//    vector<node *>::iterator i;
-//    for (i = w->neighbors.begin(); i != w->neighbors.end(); i++)
-//    {
-//        if ((*i)->visited == false)
-//        {
-//            currentTime = DFS(*i, currentTime);
-//            ++currentTime;
-//        }
-//    }
-//}
-//
-///////////////////////////////////////////
-//////////          Task 2         ////////
-////////// implement PageRank func ////////
-///////////////////////////////////////////
-//
-////todo
-//int Graph::PageRank()
-//{
-//}
-//
-///////////////////////////////////////
-//////////       Task 3        ////////
-////////// test from real data ////////
-///////////////////////////////////////
+////////////////////////////////////////
+////////         Task 1         ////////
+//////// implement RandomWalker ////////
+////////////////////////////////////////
+
+//todo
+int Graph::RandomWalker(int i, int n, float q)
+{
+    vector<node *>::iterator i;
+    for (i = w->neighbors.begin(); i != w->neighbors.end(); i++)
+    {
+        if ((*i)->visited == false)
+        {
+            currentTime = DFS(*i, currentTime);
+            ++currentTime;
+        }
+    }
+}
+
+/////////////////////////////////////////
+////////          Task 2         ////////
+//////// implement PageRank func ////////
+/////////////////////////////////////////
+
+//todo
+int Graph::PageRank(int i, int n, float q)
+{
+}
+
+/////////////////////////////////////
+////////       Task 3        ////////
+//////// test from real data ////////
+/////////////////////////////////////
 
 //todo
 int main()
@@ -183,7 +197,7 @@ int main()
     //Graph BicycleT_All = Graph("station_names.tsv");
 
     // Second. open datafile
-    StarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv");
+    StarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
     //StarW_Ep2.LoadEdge("starwars-episode-2-interactions-allCharacters-links.tsv");
     //StarW_Ep3.LoadEdge("starwars-episode-3-interactions-allCharacters-links.tsv");
     //StarW_Ep4.LoadEdge("starwars-episode-4-interactions-allCharacters-links.tsv");
@@ -196,33 +210,19 @@ int main()
     //BicycleT_100.LoadEdge("bicycle_trips_all.tsv");
     //BicycleT_All.LoadEdge("bicycle_trips_all.tsv");
 
-    // Third. let RandomWalker run
-    //StarW_Ep1.RandomWalker(50, 200, 0.3);
-    //StarW_Ep2.RandomWalker(50, 200, 0.3);
-    //StarW_Ep3.RandomWalker(50, 200, 0.3);
-    //StarW_Ep4.RandomWalker(50, 200, 0.3);
-    //StarW_Ep5.RandomWalker(50, 200, 0.3);
-    //StarW_Ep6.RandomWalker(50, 200, 0.3);
-    //StarW_Ep7.RandomWalker(50, 200, 0.3);
-    //StarW_All.RandomWalker(50, 200, 0.3);
+    //Last. let RandomWalker run and get PageRank
+    StarW_Ep1.PageRank(50, 200, 0.3);
+    //StarW_Ep2.PageRank(50, 200, 0.3);
+    //StarW_Ep3.PageRank(50, 200, 0.3);
+    //StarW_Ep4.PageRank(50, 200, 0.3);
+    //StarW_Ep5.PageRank(50, 200, 0.3);
+    //StarW_Ep6.PageRank(50, 200, 0.3);
+    //StarW_Ep7.PageRank(50, 200, 0.3);
+    //StarW_All.PageRank(50, 200, 0.3);
     //
-    //BicycleT_50.RandomWalker(50, 200, 0.3);
-    //BicycleT_100.RandomWalker(50, 200, 0.3);
-    //BicycleT_All.RandomWalker(50, 200, 0.3);
-
-    //Last. get PageRank
-    //StarW_Ep1.PageRank();
-    //StarW_Ep2.PageRank();
-    //StarW_Ep3.PageRank();
-    //StarW_Ep4.PageRank();
-    //StarW_Ep5.PageRank();
-    //StarW_Ep6.PageRank();
-    //StarW_Ep7.PageRank();
-    //StarW_All.PageRank();
-
-    //BicycleT_50.PageRank();
-    //BicycleT_100.PageRank();
-    //BicycleT_All.PageRank();
+    //BicycleT_50.PageRank(50, 200, 0.3);
+    //BicycleT_100.PageRank(50, 200, 0.3);
+    //BicycleT_All.PageRank(50, 200, 0.3);
 
     return 0;
 }
