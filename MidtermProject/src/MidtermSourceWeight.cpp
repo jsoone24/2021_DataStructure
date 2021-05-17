@@ -7,7 +7,10 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 
+static std::mt19937 gen = std::mt19937((unsigned int)time(NULL));
+static std::uniform_real_distribution<> hundred(0, 99);
 using namespace std;
 
 namespace Weight
@@ -186,14 +189,16 @@ namespace Weight
         {
             if (ptr->n_neighbors == 0) // if no neighbor node, search another node
             {
-                random_node = rand() % nodeNum;
+                std::uniform_real_distribution<> dist(0, nodeNum - 1);
+                random_node = dist(gen);
                 ptr = nodes[random_node];
                 continue;
             }
-            random = rand() % 100;
+            random = hundred(gen);
             if ((random <= q_percent) && (q_percent != 0)) //random node pick
             {
-                random_node = rand() % nodeNum;
+                std::uniform_real_distribution<> dist(0, nodeNum - 1);
+                random_node = dist(gen);
                 ptr = nodes[random_node];
             }
             else // pick node from neighbors
@@ -202,7 +207,8 @@ namespace Weight
                 // keep sum neighbor nodes weight until random_node
                 // if sum > random_node, the node being about to sum is randomly chosen node.
                 sum = ptr->neighbors[0].second;
-                random_node = (rand() % ptr->sum_weight + 1);
+                std::uniform_real_distribution<> dist(0, ptr->sum_weight);
+                random_node = dist(gen);
 
                 for (it = ptr->neighbors.begin() + 1; (it != ptr->neighbors.end()) && (sum < random_node); it++)
                 {
@@ -260,7 +266,6 @@ namespace Weight
 //todo
 int main()
 {
-    srand(time(0));
     // First. open node file
     //Weight::Graph WStarW_Ep1 = Weight::Graph("./dataset/starwars/starwars-episode-1-interactions-allCharacters-nodes.tsv");
     //Weight::Graph WStarW_Ep2 = Weight::Graph("./dataset/starwars/starwars-episode-2-interactions-allCharacters-nodes.tsv");

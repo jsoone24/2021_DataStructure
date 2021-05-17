@@ -7,7 +7,10 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 
+static std::mt19937 gen = std::mt19937((unsigned int)time(NULL));
+static std::uniform_real_distribution<> hundred(0, 99);
 using namespace std;
 
 namespace NoWeight
@@ -182,19 +185,22 @@ namespace NoWeight
         {
             if (ptr->n_neighbors == 0) // if no neighbor node, search another node
             {
-                random_node = rand() % nodeNum;
+                std::uniform_real_distribution<> dist(0, nodeNum - 1);
+                random_node = dist(gen);
                 ptr = nodes[random_node];
                 continue;
             }
             random = rand() % 100;
             if ((random <= q_percent) && (q_percent != 0)) //random node pick
             {
-                random_node = rand() % nodeNum;
+                std::uniform_real_distribution<> dist(0, nodeNum - 1);
+                random_node = dist(gen);
                 ptr = nodes[random_node];
             }
             else // pick node from neighbors
             {
-                random_node = rand() % ptr->n_neighbors;
+                std::uniform_real_distribution<> dist(0, ptr->n_neighbors - 1);
+                random_node = dist(gen);
                 ptr = ptr->neighbors[random_node];
             }
             ptr->n_visited++;
@@ -239,7 +245,6 @@ namespace NoWeight
 //todo
 int main()
 {
-    srand(time(0));
     // First. open node file
     //NoWeight::Graph NWstarW_Ep1 = NoWeight::Graph("./dataset/starwars/starwars-episode-1-interactions-allCharacters-nodes.tsv");
     //NoWeight::Graph NWstarW_Ep2 = NoWeight::Graph("./dataset/starwars/starwars-episode-2-interactions-allCharacters-nodes.tsv");
@@ -248,11 +253,11 @@ int main()
     //NoWeight::Graph NWstarW_Ep5 = NoWeight::Graph("./dataset/starwars/starwars-episode-5-interactions-allCharacters-nodes.tsv");
     //NoWeight::Graph NWstarW_Ep6 = NoWeight::Graph("./dataset/starwars/starwars-episode-6-interactions-allCharacters-nodes.tsv");
     //NoWeight::Graph NWstarW_Ep7 = NoWeight::Graph("./dataset/starwars/starwars-episode-7-interactions-allCharacters-nodes.tsv");
-    NoWeight::Graph NWstarW_All = NoWeight::Graph("./dataset/starwars/starwars-full-interactions-allCharacters-nodes.tsv");
+    //NoWeight::Graph NWstarW_All = NoWeight::Graph("./dataset/starwars/starwars-full-interactions-allCharacters-nodes.tsv");
     //
-    //Graph NWBicycleT_50 = Graph("./dataset/bicycle/station_names.tsv");
-    //Graph NWBicycleT_100 = Graph("./dataset/bicycle/station_names.tsv");
-    //Graph NWBicycleT_All = Graph("./dataset/bicycle/station_names.tsv");
+    //NoWeight::Graph NWBicycleT_50 = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
+    //NoWeight::Graph NWBicycleT_100 = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
+    NoWeight::Graph NWBicycleT_All = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
 
     // Second. open datafile. second parameter : if true : interdirectional, false : bidirectional
     //NWstarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
@@ -262,11 +267,11 @@ int main()
     //NWstarW_Ep5.LoadEdge("./dataset/starwars/starwars-episode-5-interactions-allCharacters-links.tsv", true);
     //NWstarW_Ep6.LoadEdge("./dataset/starwars/starwars-episode-6-interactions-allCharacters-links.tsv", true);
     //NWstarW_Ep7.LoadEdge("./dataset/starwars/starwars-episode-7-interactions-allCharacters-links.tsv", true);
-    NWstarW_All.LoadEdge("./dataset/starwars/starwars-full-interactions-allCharacters-links.tsv", true);
+    //NWstarW_All.LoadEdge("./dataset/starwars/starwars-full-interactions-allCharacters-links.tsv", true);
     //
     //NWBicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
     //NWBicycleT_100.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-    //NWBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+    NWBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
 
     //Last. let RandomWalker run and get PageRank
     //NWstarW_Ep1.PageRank(10, 300000, 0.9);
@@ -276,11 +281,11 @@ int main()
     //NWstarW_Ep5.PageRank(50, 200, 0.3);
     //NWstarW_Ep6.PageRank(50, 200, 0.3);
     //NWstarW_Ep7.PageRank(50, 200, 0.3);
-    NWstarW_All.PageRank(50, 30000000, 0.7);
+    //NWstarW_All.PageRank(50, 30000000, 0.7);
     //
     //NWBicycleT_50.PageRank(50, 30000000, 0.7);
     //NWBicycleT_100.PageRank(50, 200, 0.3);
-    //NWBicycleT_All.PageRank(50, 30000000, 0.7);
+    NWBicycleT_All.PageRank(50, 30000000, 0.7);
 
     return 0;
 }
