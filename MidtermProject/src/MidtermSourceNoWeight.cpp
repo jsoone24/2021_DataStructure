@@ -190,7 +190,7 @@ namespace NoWeight
                 ptr = nodes[random_node];
                 continue;
             }
-            random = rand() % 100;
+            random = hundred(gen);
             if ((random <= q_percent) && (q_percent != 0)) //random node pick
             {
                 std::uniform_real_distribution<> dist(0, nodeNum - 1);
