@@ -237,6 +237,7 @@ namespace Weight
     // i : start node, n : walk length, q : probability jumping to random node
     int Graph::PageRank(int i, int n, float q)
     {
+
         // First, call RandomWalker
         vector<pair<float, int>> rank;
         RandomWalker(i, n, q);
@@ -253,7 +254,8 @@ namespace Weight
         sort(rank.begin(), rank.end());
         for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++, t++)
         {
-            cout << "rank : " << nodeNum - t << "\tpageRankValue : " << (*it).first << "\tname : " << nodes[Id2Idx((*it).second)]->name << endl;
+            if (nodeNum - t <= 10)
+                cout << "rank : " << nodeNum - t << "\tpageRankValue : " << (*it).first << "\tname : " << nodes[Id2Idx((*it).second)]->name << endl;
         }
     }
 }
@@ -278,7 +280,7 @@ int main()
     //
     //Weight::Graph WBicycleT_50 = Weight::Graph("./dataset/bicycle/station_names.tsv");
     //Weight::Graph WBicycleT_100 = Weight::Graph("./dataset/bicycle/station_names.tsv");
-    Weight::Graph WBicycleT_All = Weight::Graph("./dataset/bicycle/station_names.tsv");
+    //Weight::Graph WBicycleT_All = Weight::Graph("./dataset/bicycle/station_names.tsv");
 
     // Second. open datafile. second parameter : if true : interdirectional, false : bidirectional
     //WStarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
@@ -292,7 +294,7 @@ int main()
     //
     //WBicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
     //WBicycleT_100.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-    WBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+    //WBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
 
     //Last. let RandomWalker run and get PageRank
     //WStarW_Ep1.PageRank(10, 300000, 0.9);
@@ -306,7 +308,15 @@ int main()
     //
     //WBicycleT_50.PageRank(50, 30000000, 0.7);
     //WBicycleT_100.PageRank(50, 30000000, 0.7);
-    WBicycleT_All.PageRank(98, 30000000, 0.2);
+    //WBicycleT_All.PageRank(98, 30000000, 0.2);
 
+    for (int k = 0; k < 10; k++)
+    {
+        cout << "\n\n"
+             << "try : " << k + 1 << endl;
+        Weight::Graph WBicycleT_All = Weight::Graph("./dataset/bicycle/station_names.tsv");
+        WBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+        WBicycleT_All.PageRank(98, 30000000, 0.2);
+    }
     return 0;
 }
