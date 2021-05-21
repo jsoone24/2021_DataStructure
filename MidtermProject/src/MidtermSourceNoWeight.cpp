@@ -228,11 +228,20 @@ namespace NoWeight
             rank.push_back({(*it)->pageRankVal, (*it)->id});
         }
 
+        //// Third, print sorted pagerank
+        //sort(rank.begin(), rank.end());
+        //for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++)
+        //{
+        //    cout << "id : " << (*it).second << "\t\tpageRankValue : " << (*it).first << "\t\tname : " << nodes[Id2Idx((*it).second)]->name << endl;
+        //}
+
         // Third, print sorted pagerank
+        int t = 0;
         sort(rank.begin(), rank.end());
-        for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++)
+        for (vector<pair<float, int>>::iterator it = rank.begin(); it != rank.end(); it++, t++)
         {
-            cout << "id : " << (*it).second << "\t\tpageRankValue : " << (*it).first << "\t\tname : " << nodes[Id2Idx((*it).second)]->name << endl;
+            if (nodeNum - t <= 10)
+                cout << "rank : " << nodeNum - t << "\tpageRankValue : " << (*it).first << "\tname : " << nodes[Id2Idx((*it).second)]->name << endl;
         }
     }
 }
@@ -257,7 +266,7 @@ int main()
     //
     //NoWeight::Graph NWBicycleT_50 = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
     //NoWeight::Graph NWBicycleT_100 = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
-    NoWeight::Graph NWBicycleT_All = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
+    //NoWeight::Graph NWBicycleT_All = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
 
     // Second. open datafile. second parameter : if true : interdirectional, false : bidirectional
     //NWstarW_Ep1.LoadEdge("./dataset/starwars/starwars-episode-1-interactions-allCharacters-links.tsv", true);
@@ -271,7 +280,7 @@ int main()
     //
     //NWBicycleT_50.LoadEdge("./dataset/bicycle/bicycle_trips_over_50.tsv", false);
     //NWBicycleT_100.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-    NWBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+    //NWBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
 
     //Last. let RandomWalker run and get PageRank
     //NWstarW_Ep1.PageRank(10, 300000, 0.9);
@@ -285,7 +294,16 @@ int main()
     //
     //NWBicycleT_50.PageRank(50, 30000000, 0.7);
     //NWBicycleT_100.PageRank(50, 200, 0.3);
-    NWBicycleT_All.PageRank(50, 30000000, 0.7);
+    //NWBicycleT_All.PageRank(50, 30000000, 0.7);
+
+     for (int k = 0; k < 5; k++)
+    {
+        cout << "\n\n"
+             << "try : " << k + 1 << endl;
+        NoWeight::Graph NWBicycleT_All = NoWeight::Graph("./dataset/bicycle/station_names.tsv");
+        NWBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
+        NWBicycleT_All.PageRank(k, 100000, 0.7);
+    }
 
     return 0;
 }

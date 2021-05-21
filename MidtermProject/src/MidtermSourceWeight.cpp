@@ -316,7 +316,7 @@ int main()
              << "try : " << k + 1 << endl;
         Weight::Graph WBicycleT_All = Weight::Graph("./dataset/bicycle/station_names.tsv");
         WBicycleT_All.LoadEdge("./dataset/bicycle/bicycle_trips_all.tsv", false);
-        WBicycleT_All.PageRank(k, 30000000, 0.2);
+        WBicycleT_All.PageRank(k, 10000, 0.7);
     }
     return 0;
 }
